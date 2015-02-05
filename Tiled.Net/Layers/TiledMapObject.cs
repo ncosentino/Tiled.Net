@@ -10,7 +10,7 @@ namespace Tiled.Net.Layers
     {
         #region Fields
         private readonly string _id;
-        private readonly int _gid;
+        private readonly int? _gid;
         private readonly string _name;
         private readonly string _type;
         private readonly float _x;
@@ -21,11 +21,12 @@ namespace Tiled.Net.Layers
         #endregion
 
         #region Constructors
-        public TiledMapObject(string id, string name, string type, int gid, float x, float y, float? width, float? height, IEnumerable<KeyValuePair<string, string>> properties)
+        public TiledMapObject(string id, string name, string type, int? gid, float x, float y, float? width, float? height, IEnumerable<KeyValuePair<string, string>> properties)
         {
             Contract.Requires<ArgumentNullException>(id != null, "id");
             Contract.Requires<ArgumentNullException>(name != null, "name");
             Contract.Requires<ArgumentNullException>(type != null, "type");
+            Contract.Requires<ArgumentOutOfRangeException>(gid == null || gid >= 0, "gid");
             Contract.Requires<ArgumentOutOfRangeException>(width == null || width >= 0, "width");
             Contract.Requires<ArgumentOutOfRangeException>(height == null || height >= 0, "height");
             Contract.Requires<ArgumentNullException>(properties != null, "properties");
@@ -53,7 +54,7 @@ namespace Tiled.Net.Layers
             get { return _id; }
         }
 
-        public int Gid
+        public int? Gid
         {
             get { return _gid; }
         }
@@ -115,6 +116,7 @@ namespace Tiled.Net.Layers
             Contract.Invariant(_type != null);
             Contract.Invariant(_width == null);
             Contract.Invariant(_height == null);
+            Contract.Invariant(_gid == null || _gid >= 0);
             Contract.Invariant(_properties != null);
         }
         #endregion

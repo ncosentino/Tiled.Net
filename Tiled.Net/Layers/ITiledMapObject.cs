@@ -10,7 +10,7 @@ namespace Tiled.Net.Layers
         #region Properties
         string Id { get; }
 
-        int Gid { get; }
+        int? Gid { get; }
 
         string Name { get; }
 

@@ -128,7 +128,12 @@ namespace Tiled.Net.Parsers
                 var id = reader.GetAttribute("id");
                 var objectName = reader.GetAttribute("name");
                 var type = reader.GetAttribute("type");
-                var gid = int.Parse(reader.GetAttribute("gid"), CultureInfo.InvariantCulture);
+
+                var gidhAttr = reader.GetAttribute("gid");
+                var gid = gidhAttr == null
+                    ? (int?)null
+                    : int.Parse(gidhAttr, CultureInfo.InvariantCulture);
+                
                 var x = float.Parse(reader.GetAttribute("x"), CultureInfo.InvariantCulture);
                 var y = float.Parse(reader.GetAttribute("y"), CultureInfo.InvariantCulture);
 
