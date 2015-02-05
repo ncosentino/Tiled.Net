@@ -114,9 +114,9 @@ namespace Tiled.Net.Layers
             Contract.Invariant(_id != null);
             Contract.Invariant(_name != null);
             Contract.Invariant(_type != null);
-            Contract.Invariant(_width == null);
-            Contract.Invariant(_height == null);
             Contract.Invariant(_gid == null || _gid >= 0);
+            Contract.Invariant(_width == null || _width >= 0);
+            Contract.Invariant(_height == null || _height >= 0);
             Contract.Invariant(_properties != null);
         }
         #endregion
