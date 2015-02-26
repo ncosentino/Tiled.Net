@@ -9,6 +9,7 @@ using System.Xml;
 
 using Tiled.Net.Layers;
 using Tiled.Net.Maps;
+using Tiled.Net.Terrain;
 using Tiled.Net.Tilesets;
 
 namespace Tiled.Net.Parsers
@@ -227,23 +228,26 @@ namespace Tiled.Net.Parsers
 
             List<ITilesetImage> images;
             List<ITilesetTile> tiles;
-            ReadTilesetContent(reader.ReadSubtree(), out images, out tiles);
-
+            List<ITerrainType> terrainTypes;
+            ReadTilesetContent(reader.ReadSubtree(), out images, out tiles, out terrainTypes);
+            
             return new Tileset(
                 firstGid,
                 tilesetName,
                 tileWidth,
                 tileHeight,
                 images,
+                terrainTypes,
                 tiles);
         }
 
-        private void ReadTilesetContent(XmlReader reader, out List<ITilesetImage> images, out List<ITilesetTile> tiles)
+        private void ReadTilesetContent(XmlReader reader, out List<ITilesetImage> images, out List<ITilesetTile> tiles, out List<ITerrainType> terrainTypes)
         {
             Contract.Requires<ArgumentNullException>(reader != null, "reader");
 
             images = new List<ITilesetImage>();
             tiles = new List<ITilesetTile>();
+            terrainTypes = new List<ITerrainType>();
 
             while (reader.Read())
             {
@@ -260,10 +264,44 @@ namespace Tiled.Net.Parsers
                     case "tile":
                         tiles.Add(ReadTilesetTile(reader));
                         break;
+                    case "terraintypes":
+                        terrainTypes.AddRange(ReadTilesetTerrainTypes(reader.ReadSubtree(), terrainTypes.Count));
+                        break;
                     default:
                         break;
                 }
             }
+        }
+
+        private IEnumerable<ITerrainType> ReadTilesetTerrainTypes(XmlReader reader, int startId)
+        {
+            Contract.Requires<ArgumentNullException>(reader != null, "reader");
+            Contract.Ensures(Contract.Result<IEnumerable<ITerrainType>>() != null);
+
+            while (reader.Read())
+            {
+                if (reader.NodeType != XmlNodeType.Element ||
+                    reader.Name != "terrain")
+                {
+                    continue;
+                }
+
+                yield return ReadTilesetTerrainType(reader, startId++);
+            }
+        }
+
+        private ITerrainType ReadTilesetTerrainType(XmlReader reader, int id)
+        {
+            Contract.Requires<ArgumentNullException>(reader != null, "reader");
+            Contract.Ensures(Contract.Result<ITerrainType>() != null);
+
+            var name = reader.GetAttribute("name");
+            var tile = int.Parse(reader.GetAttribute("tile"), CultureInfo.InvariantCulture);
+
+            return new TerrainType(
+                id,
+                name,
+                tile);
         }
 
         private ITilesetImage ReadTilesetImage(XmlReader reader)
@@ -287,11 +325,18 @@ namespace Tiled.Net.Parsers
             Contract.Ensures(Contract.Result<ITilesetTile>() != null);
 
             var id = int.Parse(reader.GetAttribute("id"), CultureInfo.InvariantCulture);
+
+            var terrainAttribute = reader.GetAttribute("terrain");
+            var terrainCorners = string.IsNullOrEmpty(terrainAttribute)
+                ? new[] { -1, -1, -1, -1 }
+                : terrainAttribute.Split(',').Select(x => x == string.Empty ? -1 : int.Parse(x, CultureInfo.InvariantCulture)).ToArray();
+
             var properties = ReadTilesetTileProperties(reader.ReadSubtree());
 
             return new TilesetTile(
                 id,
-                properties);
+                properties,
+                terrainCorners);
         }
 
         private IEnumerable<KeyValuePair<string, string>> ReadTilesetTileProperties(XmlReader reader)

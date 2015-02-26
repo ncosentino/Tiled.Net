@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Tiled.Net.Terrain;
 
 namespace Tiled.Net.Tilesets
 {
@@ -17,6 +18,8 @@ namespace Tiled.Net.Tilesets
         int TileHeight { get; }
 
         IEnumerable<ITilesetImage> Images { get; }
+
+        IEnumerable<ITerrainType> TerrainTypes { get; }
         
         IEnumerable<ITilesetTile> Tiles { get; }
         #endregion

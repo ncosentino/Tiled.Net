@@ -17,6 +17,8 @@ namespace Tiled.Net.Tilesets
 
         #region Methods
         string GetPropertyValue(string propertyName);
+
+        int GetTerrainId(int cornerIndex);
         #endregion
     }
 }

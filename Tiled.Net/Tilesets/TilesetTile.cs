@@ -11,16 +11,18 @@ namespace Tiled.Net.Tilesets
         #region Fields
         private readonly int _id;
         private readonly Dictionary<string, string> _properties;
+        private readonly List<int> _cornerTerrainIds; 
         #endregion
 
         #region Constructors
-        public TilesetTile(int id, IEnumerable<KeyValuePair<string, string>> properties)
+        public TilesetTile(int id, IEnumerable<KeyValuePair<string, string>> properties, IEnumerable<int> cornerTerrainIds)
         {
             Contract.Requires<ArgumentNullException>(properties != null, "properties");
 
             _id = id;
-            _properties = new Dictionary<string, string>();
+            _cornerTerrainIds = new List<int>(cornerTerrainIds);
 
+            _properties = new Dictionary<string, string>();
             foreach (var entry in properties)
             {
                 _properties[entry.Key] = entry.Value;
@@ -51,6 +53,11 @@ namespace Tiled.Net.Tilesets
             return _properties.ContainsKey(propertyName)
                 ? _properties[propertyName]
                 : null;
+        }
+
+        public int GetTerrainId(int cornerIndex)
+        {
+            return _cornerTerrainIds[cornerIndex];
         }
 
         [ContractInvariantMethod]
