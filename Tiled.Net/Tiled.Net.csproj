@@ -69,7 +69,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -132,6 +132,8 @@
     <Compile Include="Layers\IObjectLayer.cs" />
     <Compile Include="Maps\ITiledMap.cs" />
     <Compile Include="Layers\ITiledMapObject.cs" />
+    <Compile Include="Terrain\TerrainType.cs" />
+    <Compile Include="Terrain\ITerrainType.cs" />
     <Compile Include="Tilesets\ITilerset.cs" />
     <Compile Include="Tilesets\ITilesetImage.cs" />
     <Compile Include="Tilesets\ITilesetTile.cs" />
