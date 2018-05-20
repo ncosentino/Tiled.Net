@@ -14,11 +14,12 @@ namespace Tiled.Net.Tilesets
 
         int TileHeight { get; }
 
+        // FIXME: is this supposed to be a single image for a tileset... yes?
         IReadOnlyCollection<ITilesetImage> Images { get; }
 
         IReadOnlyCollection<ITerrainType> TerrainTypes { get; }
 
-        IReadOnlyCollection<ITilesetTile> Tiles { get; }
+        IReadOnlyDictionary<int, ITilesetTile> Tiles { get; }
         #endregion
     }
 }

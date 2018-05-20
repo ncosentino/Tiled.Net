@@ -5,7 +5,7 @@ using Tiled.Net.Tilesets;
 
 namespace Tiled.Net.Dto.Tilesets
 {
-    public class Tileset : ITileset
+    public sealed class Tileset : ITileset
     {
         #region Constructors
         public Tileset(
@@ -23,7 +23,7 @@ namespace Tiled.Net.Dto.Tilesets
             TileHeight = tileHeight;
             Images = images.ToArray();
             TerrainTypes = terrainTypes.ToArray();
-            Tiles = tiles.ToArray();
+            Tiles = tiles.ToDictionary(x => x.Id, x => x);
         }
         #endregion
 
@@ -40,7 +40,7 @@ namespace Tiled.Net.Dto.Tilesets
 
         public IReadOnlyCollection<ITerrainType> TerrainTypes { get; }
 
-        public IReadOnlyCollection<ITilesetTile> Tiles { get; }
+        public IReadOnlyDictionary<int, ITilesetTile> Tiles { get; }
         #endregion
     }
 }
