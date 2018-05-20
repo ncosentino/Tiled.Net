@@ -1,15 +1,16 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Tiled.Net")]
-[assembly: AssemblyDescription("A C# library for parsing Tiled Map Editor TMX files.")]
+[assembly: AssemblyTitle("Tiled.Net.Dto")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Nick Cosentino")]
-[assembly: AssemblyProduct("Tiled.Net")]
-[assembly: AssemblyCopyright("Copyright © Nick Cosentino 2015")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Tiled.Net.Dto")]
+[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("918ec804-6d7a-4438-8715-4c57f1875b9d")]
+[assembly: Guid("0ca8920b-abc3-4712-a9f0-d2740fb122b9")]
 
 // Version information for an assembly consists of the following four values:
 //

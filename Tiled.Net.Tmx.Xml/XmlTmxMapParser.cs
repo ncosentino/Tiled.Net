@@ -1,39 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
-
+using Tiled.Net.Dto.Layers;
+using Tiled.Net.Dto.Maps;
+using Tiled.Net.Dto.Terrain;
+using Tiled.Net.Dto.Tilesets;
 using Tiled.Net.Layers;
 using Tiled.Net.Maps;
+using Tiled.Net.Parsers;
 using Tiled.Net.Terrain;
 using Tiled.Net.Tilesets;
 
-namespace Tiled.Net.Parsers
+namespace Tiled.Net.Tmx.Xml
 {
-    public class XmlTmxMapParser
+    public sealed class XmlTmxMapParser : IMapParser
     {
         #region Methods
-        public ITiledMap ReadXml(string xmlTmxContents)
-        {
-            Contract.Requires<ArgumentNullException>(xmlTmxContents != null, "xmlTmxContents");
-            Contract.Requires<ArgumentException>(xmlTmxContents.Trim().Length != 0, "xmlTmxContents");
-            Contract.Ensures(Contract.Result<ITiledMap>() != null);
 
+        public ITiledMap ParseMap(Stream resourceStream)
+        {
+            using (var reader = new XmlTextReader(resourceStream))
+            {
+                return ReadXml(reader);
+            }
+        }
+
+        private ITiledMap ReadXml(string xmlTmxContents)
+        {
             using (var reader = XmlReader.Create(new StringReader(xmlTmxContents)))
             {
                 return ReadXml(reader);
             }
         }
 
-        public ITiledMap ReadXml(XmlReader reader)
+        private ITiledMap ReadXml(XmlReader reader)
         {
-            Contract.Requires<ArgumentNullException>(reader != null, "reader");
-            Contract.Ensures(Contract.Result<ITiledMap>() != null);
-
             while (reader.Read())
             {
                 if (reader.NodeType != XmlNodeType.Element ||
@@ -71,8 +75,6 @@ namespace Tiled.Net.Parsers
 
         private void ReadMapContents(XmlReader reader, out List<ITileset> tilesets, out List<IMapLayer> layers, out List<IObjectLayer> objectLayers)
         {
-            Contract.Requires<ArgumentNullException>(reader != null, "reader");
-
             tilesets = new List<ITileset>();
             layers = new List<IMapLayer>();
             objectLayers = new List<IObjectLayer>();
@@ -101,9 +103,6 @@ namespace Tiled.Net.Parsers
 
         private IObjectLayer ReadObjectLayer(XmlReader reader)
         {
-            Contract.Requires<ArgumentNullException>(reader != null, "reader");
-            Contract.Ensures(Contract.Result<IObjectLayer>() != null);
-
             var layerName = reader.GetAttribute("name");
             
             var objects = ReadMapObjects(reader.ReadSubtree());
@@ -115,9 +114,6 @@ namespace Tiled.Net.Parsers
 
         private IEnumerable<ITiledMapObject> ReadMapObjects(XmlReader reader)
         {
-            Contract.Requires<ArgumentNullException>(reader != null, "reader");
-            Contract.Ensures(Contract.Result<IEnumerable<ITiledMapObject>>() != null);
-
             while (reader.Read())
             {
                 if (reader.NodeType != XmlNodeType.Element ||
@@ -165,9 +161,6 @@ namespace Tiled.Net.Parsers
 
         private IMapLayer ReadLayer(XmlReader reader)
         {
-            Contract.Requires<ArgumentNullException>(reader != null, "reader");
-            Contract.Ensures(Contract.Result<IMapLayer>() != null);
-
             var layerName = reader.GetAttribute("name");
             var width = int.Parse(reader.GetAttribute("width"), CultureInfo.InvariantCulture);
             var height = int.Parse(reader.GetAttribute("height"), CultureInfo.InvariantCulture);
@@ -199,9 +192,6 @@ namespace Tiled.Net.Parsers
 
         private IEnumerable<IMapLayerTile> ReadLayerTiles(XmlReader reader)
         {
-            Contract.Requires<ArgumentNullException>(reader != null, "reader");
-            Contract.Ensures(Contract.Result<IEnumerable<IMapLayerTile>>() != null);
-
             while (reader.Read())
             {
                 if (reader.NodeType != XmlNodeType.Element ||
@@ -218,9 +208,6 @@ namespace Tiled.Net.Parsers
 
         private ITileset ReadTileset(XmlReader reader)
         {
-            Contract.Requires<ArgumentNullException>(reader != null, "reader");
-            Contract.Ensures(Contract.Result<ITileset>() != null);
-
             var firstGid = int.Parse(reader.GetAttribute("firstgid"), CultureInfo.InvariantCulture);
             var tilesetName = reader.GetAttribute("name");
             var tileWidth = int.Parse(reader.GetAttribute("tilewidth"), CultureInfo.InvariantCulture);
@@ -243,8 +230,6 @@ namespace Tiled.Net.Parsers
 
         private void ReadTilesetContent(XmlReader reader, out List<ITilesetImage> images, out List<ITilesetTile> tiles, out List<ITerrainType> terrainTypes)
         {
-            Contract.Requires<ArgumentNullException>(reader != null, "reader");
-
             images = new List<ITilesetImage>();
             tiles = new List<ITilesetTile>();
             terrainTypes = new List<ITerrainType>();
@@ -275,9 +260,6 @@ namespace Tiled.Net.Parsers
 
         private IEnumerable<ITerrainType> ReadTilesetTerrainTypes(XmlReader reader, int startId)
         {
-            Contract.Requires<ArgumentNullException>(reader != null, "reader");
-            Contract.Ensures(Contract.Result<IEnumerable<ITerrainType>>() != null);
-
             while (reader.Read())
             {
                 if (reader.NodeType != XmlNodeType.Element ||
@@ -292,9 +274,6 @@ namespace Tiled.Net.Parsers
 
         private ITerrainType ReadTilesetTerrainType(XmlReader reader, int id)
         {
-            Contract.Requires<ArgumentNullException>(reader != null, "reader");
-            Contract.Ensures(Contract.Result<ITerrainType>() != null);
-
             var name = reader.GetAttribute("name");
             var tile = int.Parse(reader.GetAttribute("tile"), CultureInfo.InvariantCulture);
 
@@ -306,9 +285,6 @@ namespace Tiled.Net.Parsers
 
         private ITilesetImage ReadTilesetImage(XmlReader reader)
         {
-            Contract.Requires<ArgumentNullException>(reader != null, "reader");
-            Contract.Ensures(Contract.Result<ITilesetImage>() != null);
-
             var entrySource = reader.GetAttribute("source");
             var width = int.Parse(reader.GetAttribute("width"), CultureInfo.InvariantCulture);
             var height = int.Parse(reader.GetAttribute("height"), CultureInfo.InvariantCulture);
@@ -321,9 +297,6 @@ namespace Tiled.Net.Parsers
 
         private ITilesetTile ReadTilesetTile(XmlReader reader)
         {
-            Contract.Requires<ArgumentNullException>(reader != null, "reader");
-            Contract.Ensures(Contract.Result<ITilesetTile>() != null);
-
             var id = int.Parse(reader.GetAttribute("id"), CultureInfo.InvariantCulture);
 
             var terrainAttribute = reader.GetAttribute("terrain");
@@ -341,9 +314,6 @@ namespace Tiled.Net.Parsers
 
         private IEnumerable<KeyValuePair<string, string>> ReadTilesetTileProperties(XmlReader reader)
         {
-            Contract.Requires<ArgumentNullException>(reader != null, "reader");
-            Contract.Ensures(Contract.Result<IEnumerable<KeyValuePair<string, string>>>() != null);
-
             while (reader.Read())
             {
                 if (reader.NodeType != XmlNodeType.Element ||

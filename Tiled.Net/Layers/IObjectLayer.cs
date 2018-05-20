@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Tiled.Net.Layers
 {
@@ -10,7 +7,7 @@ namespace Tiled.Net.Layers
         #region Properties
         string Name { get; }
 
-        IEnumerable<ITiledMapObject> Objects { get; }
+        IReadOnlyCollection<ITiledMapObject> Objects { get; }
         #endregion
     }
 }

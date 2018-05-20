@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Tiled.Net.Tilesets
+﻿namespace Tiled.Net.Tilesets
 {
     public interface ITilesetImage
     {

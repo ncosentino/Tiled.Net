@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Tiled.Net.Terrain;
 
 namespace Tiled.Net.Tilesets
@@ -17,11 +14,11 @@ namespace Tiled.Net.Tilesets
 
         int TileHeight { get; }
 
-        IEnumerable<ITilesetImage> Images { get; }
+        IReadOnlyCollection<ITilesetImage> Images { get; }
 
-        IEnumerable<ITerrainType> TerrainTypes { get; }
-        
-        IEnumerable<ITilesetTile> Tiles { get; }
+        IReadOnlyCollection<ITerrainType> TerrainTypes { get; }
+
+        IReadOnlyCollection<ITilesetTile> Tiles { get; }
         #endregion
     }
 }

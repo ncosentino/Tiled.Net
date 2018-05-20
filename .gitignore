@@ -1,3 +1,5 @@
 *.suo
 Tiled.Net/bin/*
 Tiled.Net/obj/*
+**/bin/**
+**/obj/**

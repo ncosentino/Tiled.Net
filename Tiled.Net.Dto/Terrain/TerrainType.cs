@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Tiled.Net.Terrain;
 
-namespace Tiled.Net.Terrain
+namespace Tiled.Net.Dto.Terrain
 {
     public class TerrainType : ITerrainType
     {

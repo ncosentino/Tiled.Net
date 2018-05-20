@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Tiled.Net.Layers;
 using Tiled.Net.Tilesets;
 
@@ -18,11 +15,11 @@ namespace Tiled.Net.Maps
         
         int TileHeight { get; }
         
-        IEnumerable<ITileset> Tilesets { get; }
-        
-        IEnumerable<IMapLayer> Layers { get; }
-        
-        IEnumerable<IObjectLayer> ObjectLayers { get; }
+        IReadOnlyCollection<ITileset> Tilesets { get; }
+
+        IReadOnlyCollection<IMapLayer> Layers { get; }
+
+        IReadOnlyCollection<IObjectLayer> ObjectLayers { get; }
         #endregion
     }
 }
