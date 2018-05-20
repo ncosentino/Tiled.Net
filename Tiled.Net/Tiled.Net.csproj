@@ -133,6 +133,7 @@
     <Compile Include="Parsers\IMapParser.cs" />
     <Compile Include="Terrain\ITerrainType.cs" />
     <Compile Include="Tilesets\ITileset.cs" />
+    <Compile Include="Tilesets\ITilesetCache.cs" />
     <Compile Include="Tilesets\ITilesetImage.cs" />
     <Compile Include="Tilesets\ITilesetTile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
