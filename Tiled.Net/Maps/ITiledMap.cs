@@ -7,6 +7,8 @@ namespace Tiled.Net.Maps
     public interface ITiledMap
     {
         #region Properties
+        string RenderOrder { get; }
+
         int Width { get; }
         
         int Height { get; }

@@ -46,6 +46,7 @@ namespace Tiled.Net.Tmx.Xml
                     continue;
                 }
 
+                var renderOrder = reader.GetAttribute("renderorder");
                 var width = int.Parse(reader.GetAttribute("width"), CultureInfo.InvariantCulture);
                 var height = int.Parse(reader.GetAttribute("height"), CultureInfo.InvariantCulture);
                 var tileWidth = int.Parse(reader.GetAttribute("tilewidth"), CultureInfo.InvariantCulture);
@@ -65,6 +66,7 @@ namespace Tiled.Net.Tmx.Xml
                     height,
                     tileWidth,
                     tileHeight,
+                    renderOrder,
                     tilesets,
                     layers,
                     objectLayers);

@@ -13,7 +13,8 @@ namespace Tiled.Net.Dto.Maps
             int width, 
             int height, 
             int tileWidth, 
-            int tileHeight, 
+            int tileHeight,
+            string renderOrder,
             IEnumerable<ITileset> tilesets, 
             IEnumerable<IMapLayer> layers, 
             IEnumerable<IObjectLayer> objectLayers)
@@ -22,6 +23,7 @@ namespace Tiled.Net.Dto.Maps
             Height = height;
             TileWidth = tileWidth;
             TileHeight = tileHeight;
+            RenderOrder = renderOrder;
             Tilesets = tilesets.ToArray();
             Layers = layers.ToArray();
             ObjectLayers = objectLayers.ToArray();
@@ -29,6 +31,9 @@ namespace Tiled.Net.Dto.Maps
         #endregion
 
         #region Properties
+
+        public string RenderOrder { get; }
+
         public int Width { get; }
 
         public int Height { get; }
