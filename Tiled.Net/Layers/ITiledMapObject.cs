@@ -21,11 +21,11 @@ namespace Tiled.Net.Layers
 
         float? Height { get; }
 
-        IReadOnlyDictionary<string, string> Properties { get; }
+        IReadOnlyDictionary<string, object> Properties { get; }
         #endregion
 
         #region Methods
-        string GetPropertyValue(string propertyName);
+        object GetPropertyValue(string propertyName);
         #endregion
     }
 }

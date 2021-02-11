@@ -17,7 +17,8 @@ namespace Tiled.Net.Dto.Maps
             string renderOrder,
             IEnumerable<ITileset> tilesets, 
             IEnumerable<IMapLayer> layers, 
-            IEnumerable<IObjectLayer> objectLayers)
+            IEnumerable<IObjectLayer> objectLayers,
+            IEnumerable<KeyValuePair<string, object>> properties)
         {
             Width = width;
             Height = height;
@@ -27,6 +28,7 @@ namespace Tiled.Net.Dto.Maps
             Tilesets = tilesets.ToArray();
             Layers = layers.ToArray();
             ObjectLayers = objectLayers.ToArray();
+            Properties = properties.ToDictionary(x => x.Key, x => x.Value);
         }
         #endregion
 
@@ -47,6 +49,8 @@ namespace Tiled.Net.Dto.Maps
         public IReadOnlyCollection<IMapLayer> Layers { get; }
 
         public IReadOnlyCollection<IObjectLayer> ObjectLayers { get; }
+
+        public IReadOnlyDictionary<string, object> Properties { get; }
         #endregion
     }
 }

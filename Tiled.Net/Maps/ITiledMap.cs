@@ -22,6 +22,8 @@ namespace Tiled.Net.Maps
         IReadOnlyCollection<IMapLayer> Layers { get; }
 
         IReadOnlyCollection<IObjectLayer> ObjectLayers { get; }
+
+        IReadOnlyDictionary<string, object> Properties { get; }
         #endregion
     }
 }

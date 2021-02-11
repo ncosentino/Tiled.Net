@@ -13,7 +13,7 @@ namespace Tiled.Net.Dto.Tilesets
         #region Constructors
         public TilesetTile(
             int id,
-            IEnumerable<KeyValuePair<string, string>> properties,
+            IEnumerable<KeyValuePair<string, object>> properties,
             IEnumerable<int> cornerTerrainIds)
         {
             Id = id;
@@ -26,11 +26,11 @@ namespace Tiled.Net.Dto.Tilesets
         #region Properties
         public int Id { get; }
         
-        public IReadOnlyDictionary<string, string> Properties { get; }
+        public IReadOnlyDictionary<string, object> Properties { get; }
         #endregion
 
         #region Methods
-        public string GetPropertyValue(string propertyName)
+        public object GetPropertyValue(string propertyName)
         {
             return Properties.ContainsKey(propertyName)
                 ? Properties[propertyName]

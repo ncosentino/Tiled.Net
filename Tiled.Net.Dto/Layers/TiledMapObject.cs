@@ -16,7 +16,7 @@ namespace Tiled.Net.Dto.Layers
             float y,
             float? width,
             float? height,
-            IEnumerable<KeyValuePair<string, string>> properties)
+            IEnumerable<KeyValuePair<string, object>> properties)
         {
             Id = id;
             Name = name;
@@ -47,11 +47,11 @@ namespace Tiled.Net.Dto.Layers
 
         public float? Height { get; }
         
-        public IReadOnlyDictionary<string, string> Properties { get; }
+        public IReadOnlyDictionary<string, object> Properties { get; }
         #endregion
         
         #region Methods
-        public string GetPropertyValue(string propertyName)
+        public object GetPropertyValue(string propertyName)
         {
             return Properties.ContainsKey(propertyName)
                 ? Properties[propertyName]

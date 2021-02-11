@@ -52,14 +52,12 @@ namespace Tiled.Net.Tmx.Xml
                 var tileWidth = int.Parse(reader.GetAttribute("tilewidth"), CultureInfo.InvariantCulture);
                 var tileHeight = int.Parse(reader.GetAttribute("tileheight"), CultureInfo.InvariantCulture);
 
-                List<ITileset> tilesets;
-                List<IMapLayer> layers;
-                List<IObjectLayer> objectLayers;
                 ReadMapContents(
                     reader.ReadSubtree(),
-                    out tilesets,
-                    out layers,
-                    out objectLayers);
+                    out var tilesets,
+                    out var layers,
+                    out var objectLayers,
+                    out var properties);
 
                 return new TiledMap(
                     width,
@@ -69,17 +67,24 @@ namespace Tiled.Net.Tmx.Xml
                     renderOrder,
                     tilesets,
                     layers,
-                    objectLayers);
+                    objectLayers,
+                    properties);
             }
 
             throw new FormatException("Could not find the map element.");
         }
 
-        private void ReadMapContents(XmlReader reader, out List<ITileset> tilesets, out List<IMapLayer> layers, out List<IObjectLayer> objectLayers)
+        private void ReadMapContents(
+            XmlReader reader,
+            out List<ITileset> tilesets,
+            out List<IMapLayer> layers,
+            out List<IObjectLayer> objectLayers,
+            out IReadOnlyDictionary<string, object> properties)
         {
             tilesets = new List<ITileset>();
             layers = new List<IMapLayer>();
             objectLayers = new List<IObjectLayer>();
+            properties = new Dictionary<string, object>();
 
             while (reader.Read())
             {
@@ -99,7 +104,11 @@ namespace Tiled.Net.Tmx.Xml
                     case "objectgroup":
                         objectLayers.Add(ReadObjectLayer(reader));
                         break;
-                } 
+                    case "properties":
+                        properties = ReadProperties(reader.ReadSubtree())
+                            .ToDictionary(x => x.Key, x => x.Value);
+                        break;
+                }
             }
         }
 
@@ -146,7 +155,7 @@ namespace Tiled.Net.Tmx.Xml
                     ? (float?)null
                     : float.Parse(heightAttr, CultureInfo.InvariantCulture);
 
-                var properties = ReadTilesetTileProperties(reader.ReadSubtree());
+                var properties = ReadProperties(reader.ReadSubtree());
 
                 yield return new TiledMapObject(
                     id,
@@ -306,7 +315,7 @@ namespace Tiled.Net.Tmx.Xml
                 ? new[] { -1, -1, -1, -1 }
                 : terrainAttribute.Split(',').Select(x => x == string.Empty ? -1 : int.Parse(x, CultureInfo.InvariantCulture)).ToArray();
 
-            var properties = ReadTilesetTileProperties(reader.ReadSubtree());
+            var properties = ReadProperties(reader.ReadSubtree());
 
             return new TilesetTile(
                 id,
@@ -314,7 +323,7 @@ namespace Tiled.Net.Tmx.Xml
                 terrainCorners);
         }
 
-        private IEnumerable<KeyValuePair<string, string>> ReadTilesetTileProperties(XmlReader reader)
+        private IEnumerable<KeyValuePair<string, object>> ReadProperties(XmlReader reader)
         {
             while (reader.Read())
             {
@@ -327,7 +336,7 @@ namespace Tiled.Net.Tmx.Xml
                 var propertyName = reader.GetAttribute("name");
                 var propertyValue = reader.GetAttribute("value");
                 
-                yield return new KeyValuePair<string, string>(
+                yield return new KeyValuePair<string, object>(
                     propertyName, 
                     propertyValue);
             }
