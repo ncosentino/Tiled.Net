@@ -336,7 +336,7 @@ namespace Tiled.Net.Tmx.Xml
 
                 var propertyName = reader.GetAttribute("name");
                 var propertyValue = (object)reader.GetAttribute("value");
-                if (propertyValue == null)
+                if (propertyValue == null && !reader.IsEmptyElement)
                 {
                     var subTree = reader.ReadSubtree();
                     subTree.ReadToDescendant("property");
