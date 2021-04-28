@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml;
+
 using Tiled.Net.Dto.Layers;
 using Tiled.Net.Dto.Maps;
 using Tiled.Net.Dto.Terrain;
@@ -328,13 +329,21 @@ namespace Tiled.Net.Tmx.Xml
             while (reader.Read())
             {
                 if (reader.NodeType != XmlNodeType.Element ||
-                    reader.Name != "property")
+                    !"property".Equals(reader.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }
 
                 var propertyName = reader.GetAttribute("name");
-                var propertyValue = reader.GetAttribute("value");
+                var propertyValue = (object)reader.GetAttribute("value");
+                if (propertyValue == null)
+                {
+                    var subTree = reader.ReadSubtree();
+                    subTree.ReadToDescendant("property");
+                    propertyValue = ReadProperties(subTree).ToDictionary(
+                        x => x.Key,
+                        x => x.Value);
+                }
                 
                 yield return new KeyValuePair<string, object>(
                     propertyName, 
