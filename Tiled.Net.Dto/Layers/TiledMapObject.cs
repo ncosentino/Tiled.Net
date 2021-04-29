@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Tiled.Net.Layers;
 
@@ -26,7 +27,10 @@ namespace Tiled.Net.Dto.Layers
             Y = y;
             Width = width;
             Height = height;
-            Properties = properties.ToDictionary(p => p.Key, p => p.Value);
+            Properties = properties.ToDictionary(
+                p => p.Key,
+                p => p.Value,
+                StringComparer.OrdinalIgnoreCase);
         }
         #endregion
 

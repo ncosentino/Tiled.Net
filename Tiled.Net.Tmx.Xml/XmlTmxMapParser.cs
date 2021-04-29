@@ -342,7 +342,8 @@ namespace Tiled.Net.Tmx.Xml
                     subTree.ReadToDescendant("property");
                     propertyValue = ReadProperties(subTree).ToDictionary(
                         x => x.Key,
-                        x => x.Value);
+                        x => x.Value,
+                        StringComparer.OrdinalIgnoreCase);
                 }
                 
                 yield return new KeyValuePair<string, object>(
